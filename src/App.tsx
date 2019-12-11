@@ -13,6 +13,7 @@ import 'codemirror/addon/edit/closetag';
 import './App.css';
 import htmlToDraft from 'html-to-draftjs';
 import { CodeMirrorPlugin, CodeMirrorToolbar } from './components/Editor';
+import 'draft-js/dist/Draft.css';
 var h2p = require('html2plaintext');
 
 const App: React.FC<{}> = () => {
@@ -31,9 +32,14 @@ const App: React.FC<{}> = () => {
 
 	useEffect(() => {
 		console.log('code mirror value ', value);
+		console.log('content ', content);
 		console.log('draft ', draftToHtml(convertToRaw(editorState.getCurrentContent())));
 		setContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-	});
+	}, [editorState]);
+
+	useEffect(() => {
+		setValue(content);
+	}, [content]);
 
 	const onEditorStateChange = (editorState: any) => {
 		setEditorState(editorState);
@@ -64,7 +70,6 @@ const App: React.FC<{}> = () => {
 	}
 
 	const onChangeCodeMirror = (editor: any, data: any, value: string) => {
-		console.log('value ', value);
 		setValue(value);
 	}
 
@@ -77,8 +82,6 @@ const App: React.FC<{}> = () => {
 	}
 
 	const onBackButton = () => {
-		console.log('converted text', value);
-		console.log('after setstate', draftToHtml(convertToRaw(editorState.getCurrentContent())));
 		const blocksFromHtml = htmlToDraft(value);
 		const { contentBlocks, entityMap } = blocksFromHtml;
 		const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
