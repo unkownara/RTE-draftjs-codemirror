@@ -9,6 +9,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
 import 'codemirror/theme/neat.css';
 import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/addon/edit/closetag';
 import './App.css';
 import htmlToDraft from 'html-to-draftjs';
@@ -89,6 +90,16 @@ const App: React.FC<{}> = () => {
 		setIsCodeMirrorOpen(false);
 	}
 
+	const options = {
+		theme: 'dracula',
+		mode: "htmlmixed",
+		height: "auto",
+		lineNumbers: true,
+		indentWithTabs: false,
+		tabSize: 2,
+		autoCloseTags: true
+	};
+
 	return (
 		<>
 			{isCodeMirrorOpen === false ?
@@ -115,13 +126,9 @@ const App: React.FC<{}> = () => {
 						onBack={onBackButton}
 					/>
 					<CodeMirror
+						className="CodeMirror"
 						value={content}
-						options={{
-							mode: 'xml',
-							theme: 'dracula',
-							lineNumbers: true,
-							autoCloseTags: true
-						}}
+						options={options}
 						onChange={onChangeCodeMirror}
 					/>
 				</Wrapper>

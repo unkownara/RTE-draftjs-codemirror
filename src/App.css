@@ -41,3 +41,8 @@
   min-height: 600px;
   padding: 10px;
 }
+
+.CodeMirror {
+  min-height: 500px !important;
+  height: 'auto'
+}
